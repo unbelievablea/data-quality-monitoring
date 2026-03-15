@@ -35,8 +35,7 @@ SELECT
     ugl.hk_group_id,
     ugl.cnt_added_users,
     COALESCE(ugm.cnt_users_in_group_with_messages, 0) AS cnt_users_in_group_with_messages,
-    ROUND(
-        COALESCE(ugm.cnt_users_in_group_with_messages, 0) * 1.0 / NULLIF(ugl.cnt_added_users, 0), 3) AS group_conversion
+    ROUND(COALESCE(ugm.cnt_users_in_group_with_messages, 0) * 1.0 / NULLIF(ugl.cnt_added_users, 0), 3) AS group_conversion
 FROM user_group_log AS ugl
 LEFT JOIN user_group_messages AS ugm ON ugl.hk_group_id = ugm.hk_group_id
 ORDER BY group_conversion DESC;
