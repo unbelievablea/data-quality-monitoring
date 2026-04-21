@@ -1,40 +1,29 @@
-# Проект 6-го спринта
+# Контроль качества данных и мониторинг в Airflow
 
-### Описание
-Репозиторий предназначен для сдачи проекта 6-го српинта
+Проект по внедрению проверок качества данных (Data Quality) в ETL-пайплайн с автоматическим реагированием на аномалии.
 
-### Как работать с репозиторием
-1. В вашем GitHub-аккаунте автоматически создастся репозиторий `de-project-sprint-6` после того, как вы привяжете свой GitHub-аккаунт на Платформе.
-2. Скопируйте репозиторий на свой локальный компьютер, в качестве пароля укажите ваш `Access Token` (получить нужно на странице [Personal Access Tokens](https://github.com/settings/tokens)):
-	* `git clone https://github.com/{{ username }}/de-project-sprint-6.git`
-3. Перейдите в директорию с проектом: 
-	* `cd de-project-sprint-6`
-4. Выполните проект и сохраните получившийся код в локальном репозитории:
-	* `git add .`
-	* `git commit -m 'my best commit'`
-5. Обновите репозиторий в вашем GutHub-аккаунте:
-	* `git push origin main`
+## Задача
 
-### Структура репозитория
-- `/src/dags`
+Встроить в DAG механизмы проверки данных: валидацию схемы, выявление дублей, null-значений, выбросов. Настроить алерты при падении качества ниже порога.
 
-### Как запустить контейнер
-Запустите локально команду:
-```
-docker run \
--d \
--p 3000:3000 \
--p 3002:3002 \
--p 15432:5432 \
---mount src=airflow_sp5,target=/opt/airflow \
---mount src=lesson_sp5,target=/lessons \
---mount src=db_sp5,target=/var/lib/postgresql/data \
---name=de-sprint-5-server-local \
-cr.yandex/crp1r8pht0n0gl25aug1/de-pg-cr-af:latest
-```
+## Технологии
 
-После того как запустится контейнер, вам будут доступны:
-- Airflow
-	- `localhost:3000/airflow`
-- БД
-	- `jovyan:jovyan@localhost:15432/de`
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Apache Airflow](https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Great Expectations](https://img.shields.io/badge/Great_Expectations-FF6B6B?style=for-the-badge)
+
+## Что сделано
+
+- Разработаны DAG с блоками проверки качества данных после каждой загрузки
+- Реализованы кастомные операторы для проверки: полнота, уникальность, целостность ссылок
+- Настроены пороговые значения (например, >5% null-строк — остановка пайплайна)
+- Добавлены уведомления в Telegram/Slack при провале проверок
+- Создан дашборд с метриками качества данных за последние 7 дней
+
+## Результат
+
+- Пайплайн автоматически останавливается при критическом падении качества
+- Все инциденты логируются с указанием причины (какая проверка не пройдена)
+- Данные в витринах гарантированно соответствуют заявленным требованиям
+- Время обнаружения проблем сокращено с часов до 2-3 минут
