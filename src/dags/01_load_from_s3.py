@@ -6,8 +6,8 @@ from airflow.decorators import dag
 import boto3
 import pendulum
 
-AWS_ACCESS_KEY_ID = "YCAJEiyNFq4wiOe_eMCMCXmQP"
-AWS_SECRET_ACCESS_KEY = "YCP1e96y4QI8OmcB4Eaf4q0nMHwhmtvGbDTgBeqS"
+AWS_ACCESS_KEY_ID = "xxx"
+AWS_SECRET_ACCESS_KEY = "xxx"
 
 
 def fetch_s3_file(bucket: str, key: str) -> str:
